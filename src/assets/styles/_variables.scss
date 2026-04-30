@@ -1,10 +1,2 @@
-// 核心顏色 (對應我們定義的資訊分級)
-$color-alert: #ff4d4f; // 緊急 (Red)
-$color-action: #faad14; // 行動 (Yellow)
-$color-info: #1890ff; // 探索 (Blue)
-$color-archive: #8c8c8c; // 歸檔 (Grey)
-
-// 版面變數
-$bg-primary: #f5f5f5;
-$spacing-sm: 8px;
-$spacing-md: 16px;
+// 本區只放要自動import至全局的變數(已經在vite.config.ts設定好)
+// 可以直接在component中透過lang="scss"使用變數
