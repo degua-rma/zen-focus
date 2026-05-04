@@ -4,15 +4,22 @@ import { ref, computed } from "vue";
 export const useAuthStore = defineStore("auth", () => {
   // --- State (基本資料) ---
   const isLoggedIn = ref(false);
-  const user = ref<{ name: string; email: string } | null>(null);
+  const user = ref<{ name: string; email: string; imgUrl: string } | null>(
+    null,
+  );
   const token = ref<string | null>(localStorage.getItem("token")); // 初始化時嘗試從本地拿 token
 
   // --- Getters (計算屬性) ---
-  const userName = computed(() => user.value?.name || "訪客");
+  const userName = computed(() => user.value?.name ?? "");
+  const userMail = computed(() => user.value?.email ?? "");
+  const userImg = computed(() => user.value?.imgUrl ?? "");
 
   // --- Actions (方法/邏輯) ---
   // 模擬登入成功後的處理
-  function login(userData: { name: string; email: string }, userToken: string) {
+  function login(
+    userData: { name: string; email: string; imgUrl: string },
+    userToken: string,
+  ) {
     isLoggedIn.value = true;
     user.value = userData;
     token.value = userToken;
@@ -34,6 +41,8 @@ export const useAuthStore = defineStore("auth", () => {
     user,
     token,
     userName,
+    userMail,
+    userImg,
     login,
     logout,
   };

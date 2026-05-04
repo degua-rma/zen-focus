@@ -1,44 +1,44 @@
 <template>
-  <div class="flex items-center gap-4 p-2">
-    <el-avatar :size="32">
-      <el-icon><UserFilled /></el-icon>
-    </el-avatar>
+  <div class="flex items-center gap-2">
+    <template v-if="!authStore.isLoggedIn">
+      <el-button type="primary" @click="handleLogin">登入</el-button>
+    </template>
+    <template v-else>
+      <el-popover placement="bottom-end" :width="200" trigger="click">
+        <template #reference>
+          <el-button circle>
+            <el-avatar :size="20">
+              <el-icon :size="12"><UserFilled /></el-icon>
+            </el-avatar>
+          </el-button>
+        </template>
+        <h4>{{ authStore.userName }}</h4>
+        <h6 class="mb-2 text-gray-400">{{ authStore.userMail }}</h6>
+        <hr class="mb-2" />
 
-    <div class="text-sm">
-      <span class="font-bold">{{ authStore.userName }}</span>
-    </div>
-
-    <el-button
-      v-if="!authStore.isLoggedIn"
-      type="primary"
-      size="small"
-      @click="handleLogin"
-    >
-      登入
-    </el-button>
-
-    <el-button
-      v-else
-      type="danger"
-      size="small"
-      plain
-      @click="authStore.logout"
-    >
-      登出
-    </el-button>
+        <el-button
+          type="primary"
+          size="small"
+          class="w-full"
+          @click="authStore.logout"
+        >
+          登出
+        </el-button>
+      </el-popover>
+    </template>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useAuthStore } from "@/store/auth";
+import { UserFilled } from "@element-plus/icons-vue";
+import { FAKE_DATA } from "@/mock/fake-data";
 
 const authStore = useAuthStore();
 
+// 模擬登入動作
+// 還沒寫完
 const handleLogin = () => {
-  // 模擬登入動作
-  authStore.login(
-    { name: "預設名稱", email: "sample@example.com" },
-    "fake-jwt-token",
-  );
+  authStore.login(FAKE_DATA.user.userInfo, FAKE_DATA.user.token);
 };
 </script>

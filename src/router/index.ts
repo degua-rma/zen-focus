@@ -1,18 +1,29 @@
 import { createRouter, createWebHistory } from "vue-router";
 // 1. 定義路由
-const routes = [
-  {
-    path: "/login",
-    name: "login",
-    // 懶加載：只有進入該頁面時才載入組件，對性能優化很有幫助
-    component: () => import("@/views/LoginView.vue"),
-    meta: { title: "登入" },
-  },
+
+// 1-1. 會顯示在Menu的頁面
+export const menuRoutes = [
   {
     path: "/",
     name: "home",
     component: () => import("@/views/HomeView.vue"),
     meta: { title: "首頁" },
+  },
+  {
+    path: "/payment-setting",
+    name: "payment-setting",
+    component: () => import("@/views/PaymentSettingView.vue"),
+    meta: { title: "繳費設定" },
+  },
+];
+
+const routes = [
+  ...menuRoutes,
+  {
+    path: "/login",
+    name: "login",
+    component: () => import("@/views/LoginView.vue"),
+    meta: { title: "登入" },
   },
   {
     path: "/setting",

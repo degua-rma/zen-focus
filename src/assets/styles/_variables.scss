@@ -1,2 +1,8 @@
 // 本區只放要自動import至全局的變數(已經在vite.config.ts設定好)
 // 可以直接在component中透過lang="scss"使用變數
+
+// 顏色設定
+$main-color: #333;
+
+// 動畫設定
+$transition-hover: 0.3s;

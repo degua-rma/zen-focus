@@ -1,7 +1,7 @@
 <template>
-  <div class="home-view">
+  <div class="payment-setting-view">
     <NavBar />
-    <h1>首頁</h1>
+    <h1>繳費設定</h1>
   </div>
 </template>
 
