@@ -22,6 +22,7 @@ declare module 'vue' {
     ElMenuItem: typeof import('element-plus/es')['ElMenuItem']
     ElPopover: typeof import('element-plus/es')['ElPopover']
     ElTag: typeof import('element-plus/es')['ElTag']
+    IconGoogle: typeof import('./src/components/icons/IconGoogle.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }
