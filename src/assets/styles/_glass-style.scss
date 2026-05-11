@@ -1,0 +1,137 @@
+// 特殊顏色設定
+$glass-bg-start: #f0f8ff;
+$glass-bg-end: #d1e9ff;
+$glass-border-refraction: #b0c4de;
+$glass-card-shadow-color: #1f2687;
+$glass-input-shadow-color: #a0b4c8;
+$glass-main-btn-bg-1: #b4d2ff;
+$glass-main-btn-bg-2: #64a0f0;
+$glass-main-btn-color: #3a5a7a;
+
+// 玻璃卡片
+.glass-card {
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  gap: 12px;
+  border: 1px solid transparent;
+  border-radius: $border-radius;
+  background:
+    linear-gradient(to bottom, $glass-bg-start, $glass-bg-end) padding-box,
+    linear-gradient(135deg, $white-color, $glass-border-refraction) border-box;
+  box-shadow: 0 8px 32px 0 rgba($glass-card-shadow-color, 0.2);
+}
+
+// 玻璃內凹Input框
+.glass-input {
+  width: 100%;
+  height: $login-button-height;
+  padding: 0 25px;
+  font-size: $font-size-h4;
+  border: none;
+  border-radius: $border-radius;
+  letter-spacing: $sm-spacing;
+
+  color: $text-color;
+  background: rgba($white-color, 0.4);
+  box-shadow:
+    inset 4px 4px 8px rgba($glass-input-shadow-color, 0.4),
+    inset -4px -4px 8px rgba($white-color, 0.8),
+    0px 2px 4px rgba($white-color, 0.3);
+  transition: $transition-elastic;
+  &:focus {
+    outline: none;
+    background: rgba($white-color, 0.6);
+    box-shadow:
+      inset 2px 2px 5px rgba($glass-input-shadow-color, 0.3),
+      inset -2px -2px 5px rgba($white-color, 0.5),
+      0 0 15px rgba($white-color, 0.6);
+  }
+}
+
+// 玻璃質感主要按鈕
+.glass-main-button {
+  @include flex-center;
+  width: 100%;
+  height: $login-button-height;
+  border: none;
+  border-radius: $border-radius;
+  background: linear-gradient(
+    135deg,
+    rgba($glass-main-btn-bg-1, 0.9) 0%,
+    rgba($glass-main-btn-bg-2, 0.8) 100%
+  );
+  box-shadow:
+    0 8px 20px rgba($glass-main-btn-bg-2, 0.3),
+    inset 0 2px 5px rgba($white-color, 0.4),
+    inset 0 -2px 5px rgba(0, 0, 0, 0.1);
+  color: $glass-main-btn-color;
+  font-size: $font-size-h3;
+  font-weight: $font-weight-bold;
+  letter-spacing: $lg-spacing;
+  cursor: pointer;
+  @include login-btn-transform();
+  &:hover {
+    background: linear-gradient(
+      135deg,
+      $glass-main-btn-bg-1 0%,
+      rgba($glass-main-btn-bg-2, 0.9) 100%
+    );
+    box-shadow: 0 12px 25px rgba($glass-main-btn-bg-2, 0.4);
+  }
+  &:active {
+    background: rgba($glass-main-btn-bg-2, 0.9);
+    box-shadow: 0 4px 10px rgba($glass-main-btn-bg-2, 0.3);
+  }
+}
+
+// 玻璃質感輔助按鈕
+.glass-other-btn {
+  @include flex-center;
+  width: 100%;
+  height: $login-button-height;
+  border-radius: $border-radius;
+  border: 1px solid rgba($white-color, 0.8);
+  background: rgba($white-color, 0.3);
+  color: $text-color;
+  font-size: $font-size-h4;
+  font-weight: $font-weight;
+  letter-spacing: $md-spacing;
+  cursor: pointer;
+  transition: $transition-elastic;
+  .button-icon {
+    width: $font-size-h2;
+    height: $font-size-h2;
+    font-size: $font-size-h2;
+    margin-right: 8px;
+    fill: $text-color;
+    opacity: 0.5;
+  }
+  &:hover {
+    background: rgba($white-color, 0.5);
+    box-shadow: 0 5px 15px rgba($white-color, 0.3);
+  }
+}
+
+/* 中間可放字的分隔線 */
+.text-divider {
+  @include flex-center;
+  width: 100%;
+  gap: 10px;
+  letter-spacing: $lg-spacing;
+  margin: 10px 0;
+  color: rgba($text-color, 0.4);
+  font-size: $font-size-h6;
+  &::before,
+  &::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0.3),
+      rgba(255, 255, 255, 0.9),
+      rgba(255, 255, 255, 0.3)
+    );
+  }
+}

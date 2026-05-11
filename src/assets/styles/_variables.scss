@@ -2,7 +2,36 @@
 // 可以直接在component中透過lang="scss"使用變數
 
 // 顏色設定
-$main-color: #333;
+$main-color: #95b4ef;
+$light-color: #ccfcff;
+$text-color: #5c7fa3;
+$white-color: #fff;
+$hr-color: #ddd;
+
+// 字體設定
+$font-family:
+  "Quicksand", "Open Huninn", "Gen Jyuu Gothic", "Microsoft JhengHei",
+  sans-serif;
+$font-weight: 500;
+$font-weight-bold: 700;
+// 文字大小
+$font-size-h1: 32px;
+$font-size-h2: 24px;
+$font-size-h3: 18px;
+$font-size-h4: 16px;
+$font-size-h5: 14px;
+$font-size-h6: 12px;
+// 文字間距
+$lg-spacing: 4px;
+$md-spacing: 2px;
+$sm-spacing: 1px;
+
+// 邊框設定
+$border-radius: 24px;
+
+// 按鈕設定
+$login-button-height: 52px;
 
 // 動畫設定
 $transition-hover: 0.3s;
+$transition-elastic: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);

@@ -1,1 +1,18 @@
-// 先用tailwind.css，不夠用再來用這個檔案@mixin跟@include
+// 全置中排列
+@mixin flex-center() {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+// 登入頁大按鈕回饋動畫
+@mixin login-btn-transform() {
+  transform: translateY(0px) scale(1);
+  transition: $transition-elastic;
+  &:hover {
+    transform: translateY(-2px) scale(1);
+  }
+  &:active {
+    transform: translateY(1px) scale(0.98);
+  }
+}
