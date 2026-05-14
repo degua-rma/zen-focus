@@ -1,0 +1,21 @@
+{
+  "nav": {
+    "home": "HOME",
+    "settings": "SETTINGS"
+  },
+  "lang": {
+    "change-lang": "Change Language",
+    "lang-switched-title": "Language Switched",
+    "lang-switched-msg": "The system language has been changed to: "
+  },
+  "login": {
+    "no-account": "Don't have an account?",
+    "forget-password": "Forgot Password?",
+    "input-username": "Email or Username",
+    "input-password": "Enter Password",
+    "sign-in": "SIGN IN",
+    "or": "OR",
+    "continue-google": "Continue with Google",
+    "continue-guest": "Continue as Guest"
+  }
+}

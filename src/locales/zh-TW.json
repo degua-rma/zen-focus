@@ -1,0 +1,21 @@
+{
+  "nav": {
+    "home": "首頁",
+    "settings": "設定"
+  },
+  "lang": {
+    "change-lang": "切換語系",
+    "lang-switched-title": "語系切換成功",
+    "lang-switched-msg": "系統語系已切換為："
+  },
+  "login": {
+    "no-account": "尚未建立帳號？",
+    "forget-password": "忘記密碼？",
+    "input-username": "信箱或使用者名稱",
+    "input-password": "請輸入密碼",
+    "sign-in": "登入",
+    "or": "或",
+    "continue-google": "Google登入",
+    "continue-guest": "訪客登入"
+  }
+}

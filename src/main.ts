@@ -1,11 +1,13 @@
 import { createApp } from "vue";
-import { createPinia } from "pinia"; // 導入 Pinia
+import { createPinia } from "pinia"; // 全域變數管理store
 import "./assets/styles/main.scss";
 import App from "./App.vue";
-import router from "./router"; // 引入剛寫好的 router
+import router from "./router"; // 路由
+import i18n from "./locales"; // 語系切換
 
 const app = createApp(App);
 
-app.use(createPinia()); // 掛載 Pinia
-app.use(router); // 告訴 Vue 我要使用這個路由系統
+app.use(createPinia());
+app.use(router);
+app.use(i18n);
 app.mount("#app");
