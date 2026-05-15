@@ -1,10 +1,7 @@
 <template>
   <div class="home-view">
-    <NavBar />
-    <h1>首頁</h1>
+    <h1>儀錶板</h1>
   </div>
 </template>
 
-<script setup lang="ts">
-import NavBar from "@/layout/NavBar.vue";
-</script>
+<script setup lang="ts"></script>

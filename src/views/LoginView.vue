@@ -34,7 +34,7 @@
         <IconGoogle class="button-icon" />
         <span class="mx-auto">{{ $t("login.continue-google") }}</span>
       </button>
-      <button class="glass-other-btn">
+      <button class="glass-other-btn" @click="handleGuestLogin">
         <el-icon class="button-icon"><Avatar /></el-icon>
         <span class="mx-auto">{{ $t("login.continue-guest") }}</span>
       </button>
@@ -102,6 +102,13 @@ const handleLangChange = (val: string | number | boolean) => {
   if (popoverRef.value) {
     popoverRef.value.hide();
   }
+};
+
+// 訪客登入
+import { useRouter } from "vue-router";
+const router = useRouter();
+const handleGuestLogin = () => {
+  router.push("/");
 };
 </script>
 

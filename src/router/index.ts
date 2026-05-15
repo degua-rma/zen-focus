@@ -5,20 +5,44 @@ import { createRouter, createWebHistory } from "vue-router";
 export const menuRoutes = [
   {
     path: "/",
-    name: "home",
+    name: "dashboard",
     component: () => import("@/views/HomeView.vue"),
-    meta: { title: "首頁" },
+    meta: { title: "儀錶板" },
   },
   {
-    path: "/payment-setting",
-    name: "payment-setting",
-    component: () => import("@/views/PaymentSettingView.vue"),
-    meta: { title: "繳費設定" },
+    path: "/personal-tools",
+    name: "personal-tools",
+    component: () => import("@/views/PersonalToolView.vue"),
+    meta: { title: "個人化工具" },
+    children: [
+      {
+        path: "payment-setting",
+        name: "payment-setting",
+        component: () => import("@/views/PaymentSettingView.vue"),
+        meta: { title: "繳費提醒" },
+      },
+      {
+        path: "inner-space",
+        name: "inner-space",
+        component: () => import("@/views/InnerSpaceView.vue"),
+        meta: { title: "內在空間" },
+      },
+    ],
+  },
+  {
+    path: "/showcase",
+    name: "showcase",
+    component: () => import("@/views/ShowcaseView.vue"),
+    meta: { title: "案例展示" },
   },
 ];
 
 const routes = [
-  ...menuRoutes,
+  {
+    path: "/",
+    component: () => import("@/layout/MainLayout.vue"),
+    children: [...menuRoutes],
+  },
   {
     path: "/login",
     name: "login",
