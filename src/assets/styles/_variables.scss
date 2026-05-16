@@ -1,6 +1,31 @@
 // 本區只放要自動import至全局的變數(已經在vite.config.ts設定好)
 // 可以直接在component中透過lang="scss"使用變數
 
+// 覆蓋element plus預設樣式
+:root {
+  --el-color-primary: #a5c2f8;
+  --el-color-primary-light-3: #5b92f8;
+  --el-color-primary-light-5: #c7dafc;
+  --el-color-primary-light-7: #97bcff;
+  --el-color-primary-light-9: #f9fbff;
+  --el-color-success: #72eba7;
+  --el-color-success-light-3: #0acb5e;
+  --el-color-success-light-5: #9af3c0;
+  --el-color-success-light-9: #effff6;
+  --el-color-warning: #f9d76f;
+  --el-color-warning-light-3: #ffbf00;
+  --el-color-warning-light-5: #fbe5a2;
+  --el-color-warning-light-9: #fffcf2;
+  --el-color-danger: #fcafeb;
+  --el-color-danger-light-3: #ff7ae2;
+  --el-color-danger-light-5: #ffd3f5;
+  --el-color-danger-light-9: #fff3fc;
+  --el-color-info: #cbcbcb;
+  --el-color-info-light-3: #646464;
+  --el-color-info-light-5: #e1e1e1;
+  --el-color-info-light-9: #f3f3f3;
+}
+
 // 顏色設定
 $main-color: #95b4ef;
 $light-color: #ccfcff;
@@ -40,3 +65,4 @@ $transition-elastic: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 $header-height: 60px;
 $footer-height: 32px;
 $nav-width: 200px;
+$inner-padding: 24px;

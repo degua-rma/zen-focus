@@ -18,6 +18,9 @@ a {
     color: $main-color;
   }
 }
+p {
+  font-size: $font-size-h6;
+}
 
 .text-h1 {
   font-size: $font-size-h1;
@@ -36,4 +39,36 @@ a {
 }
 .text-h6 {
   font-size: $font-size-h6;
+}
+
+// 覆蓋element plus樣式
+.el-button--primary.is-dashed {
+  color: var(--el-color-primary);
+  &:hover {
+    color: var(--el-color-primary-light-3);
+  }
+}
+.el-button--success.is-dashed {
+  color: var(--el-color-success);
+  &:hover {
+    color: var(--el-color-success-light-3);
+  }
+}
+.el-button--warning.is-dashed {
+  color: var(--el-color-warning);
+  &:hover {
+    color: var(--el-color-warning-light-3);
+  }
+}
+.el-button--danger.is-dashed {
+  color: var(--el-color-danger);
+  &:hover {
+    color: var(--el-color-danger-light-3);
+  }
+}
+.el-button--info.is-dashed {
+  color: var(--el-color-info);
+  &:hover {
+    color: var(--el-color-info-light-3);
+  }
 }

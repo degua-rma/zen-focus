@@ -1,31 +1,42 @@
 <template>
-  <div class="flex items-center gap-2">
-    <template v-if="!authStore.isLoggedIn">
-      <el-button type="primary" @click="goToLogin">登入</el-button>
-    </template>
-    <template v-else>
-      <el-popover placement="bottom-end" :width="200" trigger="click">
-        <template #reference>
-          <el-button circle>
-            <el-avatar :size="20">
-              <el-icon :size="12"><UserFilled /></el-icon>
-            </el-avatar>
-          </el-button>
-        </template>
-        <h4>{{ authStore.userName }}</h4>
-        <h6 class="mb-2 text-gray-400">{{ authStore.userMail }}</h6>
+  <div class="login-status">
+    <el-popover placement="bottom-end" :width="200" trigger="click">
+      <template #reference>
+        <el-button circle>
+          <el-avatar :size="20">
+            <el-icon :size="12"><UserFilled /></el-icon>
+          </el-avatar>
+        </el-button>
+      </template>
+      <template v-if="!authStore.isLoggedIn">
+        <h4>尚未登入</h4>
+        <p class="mb-2 text-gray-400">
+          您當前為訪客模式，系統不會記錄您的任何數據
+        </p>
         <hr class="mb-2" />
-
         <el-button
           type="primary"
+          size="small"
+          class="w-full"
+          @click="handleLogin"
+        >
+          登入
+        </el-button>
+      </template>
+      <template v-else>
+        <h4>{{ authStore.userName }}</h4>
+        <p class="mb-2 text-gray-400">{{ authStore.userMail }}</p>
+        <hr class="mb-2" />
+        <el-button
+          type="danger"
           size="small"
           class="w-full"
           @click="authStore.logout"
         >
           登出
         </el-button>
-      </el-popover>
-    </template>
+      </template>
+    </el-popover>
   </div>
 </template>
 

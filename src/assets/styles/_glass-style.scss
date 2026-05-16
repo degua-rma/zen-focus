@@ -34,10 +34,6 @@ $glass-main-btn-color: #3a5a7a;
   box-shadow: none;
   transition: $transition-hover;
   cursor: pointer;
-  .glass-icon {
-    width: 100%;
-    height: 100%;
-  }
   &:hover {
     box-shadow: 0 2px 8px 0 rgba($glass-card-shadow-color, 0.2);
   }

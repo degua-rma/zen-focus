@@ -1,7 +1,5 @@
 <template>
-  <div class="home-view">
-    <h1>儀錶板</h1>
-  </div>
+  <div class="home-view"></div>
 </template>
 
 <script setup lang="ts"></script>

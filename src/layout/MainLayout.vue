@@ -2,14 +2,24 @@
   <div class="main-layout">
     <div class="main-header">
       <a id="logo" href="/">ZEN FOCUS</a>
-      <LoginStatus />
+      <div class="header-wrap">
+        <BreadCrumb />
+        <div class="flex items-center gap-2">
+          <LoginStatus />
+          <ChangeLang type="dashboard" />
+        </div>
+      </div>
     </div>
     <div class="main-container">
       <div class="main-nav">
         <NavBar />
       </div>
       <div class="main-inner">
-        <div class="main-page"><router-view /></div>
+        <div class="main-page">
+          <el-scrollbar>
+            <router-view />
+          </el-scrollbar>
+        </div>
         <div class="main-footer">
           <p class="text-h6">版本資訊：v0 - 聯絡資訊</p>
         </div>
@@ -20,6 +30,8 @@
 
 <script setup lang="ts">
 import NavBar from "@/layout/NavBar.vue";
+import ChangeLang from "@/layout/ChangeLang.vue";
+import BreadCrumb from "@/layout/BreadCrumb.vue";
 import LoginStatus from "@/layout/LoginStatus.vue";
 </script>
 
@@ -29,10 +41,10 @@ import LoginStatus from "@/layout/LoginStatus.vue";
   .main-header {
     width: 100%;
     height: $header-height;
-    padding: 0 20px 0 0;
+    padding: 0;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
     border-bottom: 1px solid #ddd;
     #logo {
       width: $nav-width;
@@ -44,6 +56,13 @@ import LoginStatus from "@/layout/LoginStatus.vue";
       font-style: italic;
       letter-spacing: $md-spacing;
       border-right: 1px solid #ddd;
+    }
+    .header-wrap {
+      width: calc(100% - $nav-width);
+      padding: 0 $inner-padding;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
   }
   .main-container {
@@ -64,7 +83,7 @@ import LoginStatus from "@/layout/LoginStatus.vue";
       .main-page {
         width: 100%;
         height: calc(100vh - $header-height - $footer-height);
-        padding: 32px;
+        padding: $inner-padding;
       }
       .main-footer {
         width: 100%;
