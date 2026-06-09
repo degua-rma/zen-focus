@@ -28,7 +28,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src"), // 這樣妳就能用 @ 符號指向 src
+      "@": path.resolve(__dirname, "./src"), // 用 @ 符號指向 src
     },
   },
 });

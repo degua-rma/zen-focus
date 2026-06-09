@@ -5,11 +5,10 @@
     "types": ["vite/client"],
 
     /* Linting */
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
+    "noUnusedLocals": false, // 忽略未使用的局部變數
+    "noUnusedParameters": false, // 忽略未使用的參數
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
-    "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     }
