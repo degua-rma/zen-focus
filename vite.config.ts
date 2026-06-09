@@ -17,6 +17,7 @@ export default defineConfig({
       resolvers: [ElementPlusResolver()],
     }),
   ],
+  base: "/zen-focus/", // 專案的base path(Github Page)
   css: {
     preprocessorOptions: {
       scss: {
