@@ -72,3 +72,8 @@ p {
     color: var(--el-color-info-light-3);
   }
 }
+
+.el-tabs {
+  border-radius: calc($border-radius / 2);
+  overflow: hidden;
+}
