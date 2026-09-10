@@ -45,8 +45,8 @@ import LoginStatus from "@/layout/LoginStatus.vue";
   width: 100%;
   background: linear-gradient(
     135deg,
-    var(--el-color-primary),
-    var(--el-color-primary-light-5)
+    var(--el-color-primary-light-7),
+    var(--el-color-success-light-7)
   );
   padding: calc($inner-padding / 2);
   .card {

@@ -41,6 +41,22 @@ p {
   font-size: $font-size-h6;
 }
 
+.inner-title {
+  display: flex;
+  align-items: center;
+  margin-bottom: $inner-padding * 2;
+  padding-bottom: $inner-padding;
+  gap: $inner-padding;
+  border-bottom: 1px solid #ddd;
+  .hover-icon {
+    cursor: pointer;
+    transition: $transition-hover;
+    &:hover {
+      color: $main-color;
+    }
+  }
+}
+
 // 覆蓋element plus樣式
 .el-button--primary.is-dashed {
   color: var(--el-color-primary);

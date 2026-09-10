@@ -4,9 +4,11 @@
 import * as user from "./user";
 import * as dashboard from "./dashboard";
 import * as settings from "./settings";
+import * as personalTool from "./personal-tool";
 
 export const FAKE_DATA = {
   ...user,
   ...dashboard,
   ...settings,
+  ...personalTool,
 };

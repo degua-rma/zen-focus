@@ -21,12 +21,6 @@ export const menuRoutes = [
         component: () => import("@/views/PaymentSettingView.vue"),
         meta: { title: "繳費提醒" },
       },
-      {
-        path: "inner-space",
-        name: "inner-space",
-        component: () => import("@/views/InnerSpaceView.vue"),
-        meta: { title: "內在空間" },
-      },
     ],
   },
   {
