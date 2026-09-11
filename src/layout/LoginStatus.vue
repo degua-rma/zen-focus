@@ -53,6 +53,7 @@ const authStore = useAuthStore();
 // 還沒寫完
 const handleLogin = () => {
   authStore.login(FAKE_DATA.user.userInfo, FAKE_DATA.user.token);
+  goToLogin();
 };
 
 // 前往登入頁
