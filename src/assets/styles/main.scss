@@ -41,6 +41,19 @@ p {
   font-size: $font-size-h6;
 }
 
+.text-primary {
+  color: var(--el-color-primary) !important;
+}
+.text-success {
+  color: var(--el-color-success) !important;
+}
+.text-warning {
+  color: var(--el-color-warning) !important;
+}
+.text-danger {
+  color: var(--el-color-danger) !important;
+}
+
 .inner-title {
   display: flex;
   align-items: center;

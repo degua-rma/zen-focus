@@ -52,7 +52,7 @@ const authStore = useAuthStore();
 // 模擬登入動作
 // 還沒寫完
 const handleLogin = () => {
-  authStore.login(FAKE_DATA.user.userInfo, FAKE_DATA.user.token);
+  authStore.login(FAKE_DATA.auth.userInfo, FAKE_DATA.auth.token);
   goToLogin();
 };
 
