@@ -1,0 +1,82 @@
+// 角色權限
+import type { RoleItem } from "@/types/role";
+
+export const roleList: RoleItem[] = [
+  {
+    id: "ROLE-001",
+    role: "Admin",
+    description: "系統最高權限管理者，具備全域管理與安全配置能力",
+    scope: [
+      "user:read",
+      "user:create",
+      "user:write",
+      "user:status",
+      "user:reset_pwd",
+      "role:read",
+      "role:create",
+      "role:write",
+      "role:delete",
+      "api:read",
+      "api:write",
+      "api:full_access",
+      "audit:read",
+      "audit:export",
+      "billing:read",
+      "billing:manage",
+      "report:read",
+      "report:export",
+    ],
+    createdAt: "2026-01-01",
+    isSystem: true,
+  },
+  {
+    id: "ROLE-002",
+    role: "Developer",
+    description: "系統開發與營運維護人員，負責業務資源與 API 操作",
+    scope: [
+      "user:read",
+      "api:read",
+      "api:write",
+      "report:read",
+      "report:export",
+    ],
+    createdAt: "2026-01-01",
+    isSystem: true,
+  },
+  {
+    id: "ROLE-003",
+    role: "Auditor",
+    description: "資安與內部稽核員，僅限讀取日誌與合規性報表",
+    scope: [
+      "user:read",
+      "role:read",
+      "audit:read",
+      "audit:export",
+      "report:read",
+    ],
+    createdAt: "2026-01-01",
+    isSystem: true,
+  },
+  {
+    id: "ROLE-004",
+    role: "Viewer",
+    description: "一般唯讀觀察者，僅能檢視基礎儀表板與公開數據",
+    scope: ["report:read"],
+    createdAt: "2026-01-01",
+    isSystem: true,
+  },
+  {
+    id: "ROLE-005",
+    role: "Finance Ops",
+    description: "金流與資產營運人員，負責帳務核對與報表產出，無資安設定權限",
+    scope: [
+      "user:read",
+      "billing:read",
+      "billing:manage",
+      "report:read",
+      "report:export",
+    ],
+    createdAt: "2026-09-15",
+    isSystem: false, // 代表為使用者自行建立的自訂角色（Custom Role）
+  },
+];

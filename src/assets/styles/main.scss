@@ -69,6 +69,15 @@ p {
     }
   }
 }
+.column-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .el-button + .el-button,
+  .el-button + .el-dropdown {
+    margin-left: 8px;
+  }
+}
 
 // 覆蓋element plus樣式
 .el-button--primary.is-dashed {

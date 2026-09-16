@@ -36,7 +36,6 @@
                 type="default"
                 :icon="MoreFilled"
                 size="small"
-                style="margin-left: 8px"
               ></el-button>
               <template #dropdown>
                 <el-dropdown-menu>

@@ -6,6 +6,8 @@ import * as dashboard from "./dashboard";
 import * as settings from "./settings";
 import * as personalTool from "./personal-tool";
 import * as userList from "./users";
+import * as roleList from "./role";
+import * as permissionList from "./permission";
 
 export const FAKE_DATA = {
   ...auth,
@@ -13,4 +15,6 @@ export const FAKE_DATA = {
   ...settings,
   ...personalTool,
   ...userList,
+  ...roleList,
+  ...permissionList,
 };
