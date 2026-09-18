@@ -8,6 +8,7 @@ import * as personalTool from "./personal-tool";
 import * as userList from "./users";
 import * as roleList from "./role";
 import * as permissionList from "./permission";
+import * as mockAuditLogs from "./auditLog";
 
 export const FAKE_DATA = {
   ...auth,
@@ -17,4 +18,5 @@ export const FAKE_DATA = {
   ...userList,
   ...roleList,
   ...permissionList,
+  ...mockAuditLogs,
 };

@@ -78,6 +78,17 @@ p {
     margin-left: 8px;
   }
 }
+.json-code {
+  background-color: #111;
+  color: var(--el-color-primary-light-5);
+  padding: 12px;
+  border-radius: 6px;
+  font-family: "Fira Code", monospace;
+  font-size: 13px;
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
 
 // 覆蓋element plus樣式
 .el-button--primary.is-dashed {
@@ -114,4 +125,10 @@ p {
 .el-tabs {
   border-radius: calc($border-radius / 2);
   overflow: hidden;
+}
+
+.el-drawer__header {
+  margin-bottom: 0 !important;
+  padding: 20px !important;
+  border-bottom: 1px solid $hr-color;
 }

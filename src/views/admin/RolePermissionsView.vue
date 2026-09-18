@@ -14,7 +14,6 @@
         :label="column.label"
         :width="column.width"
         :align="column.align"
-        :fixed="column.fixed"
       >
         <template #default="{ row }">
           <div v-if="column.prop === 'type'">
@@ -45,7 +44,7 @@
       </el-table-column>
     </el-table>
     <!-- 查看權限清單 -->
-    <el-drawer v-model="openViewPermissionDrawer" direction="rtl">
+    <el-drawer v-model="openViewPermissionDrawer" direction="rtl" size="50%">
       <template #header>
         <h3>{{ currentRole?.role ?? "" }} 權限列表</h3>
       </template>
@@ -75,7 +74,6 @@
           </el-tag>
         </div>
       </template>
-      <template #footer></template>
     </el-drawer>
   </div>
 </template>
