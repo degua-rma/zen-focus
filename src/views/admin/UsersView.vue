@@ -7,92 +7,68 @@
         <el-button type="primary" :icon="Setting">快速管理</el-button>
       </div>
     </div>
-    <el-table :data="tableData" border :height="tableHeight">
-      <el-table-column
-        v-for="column in columns"
-        :key="column.prop || column.type"
-        :type="column.type"
-        :index="column.index"
-        :prop="column.prop"
-        :label="column.label"
-        :width="column.width"
-        :align="column.align"
-        :fixed="column.fixed"
-      >
-        <template #default="{ row }">
-          <span v-if="column.prop === 'status'">
-            <el-button
-              circle
-              size="small"
-              :type="mapStatus[row.status as UserStatus].type"
-              :icon="mapStatus[row.status as UserStatus].icon"
-              :title="mapStatus[row.status as UserStatus].title"
-            ></el-button>
-          </span>
-          <div v-else-if="column.prop === 'action'" class="column-action">
-            <el-button type="primary" size="small">編輯</el-button>
-            <el-dropdown>
+    <TablePage
+      v-model:current-page="currentPage"
+      :total="pageTotal"
+      @page-change="fetchData"
+    >
+      <el-table :data="tableData" border :height="tableHeight">
+        <el-table-column
+          v-for="column in columns"
+          :key="column.prop || column.type"
+          :type="column.type"
+          :index="column.index"
+          :prop="column.prop"
+          :label="column.label"
+          :width="column.width"
+          :align="column.align"
+          :fixed="column.fixed"
+        >
+          <template #default="{ row }">
+            <span v-if="column.prop === 'status'">
               <el-button
-                type="default"
-                :icon="MoreFilled"
+                circle
                 size="small"
+                :type="mapStatus[row.status as UserStatus].type"
+                :icon="mapStatus[row.status as UserStatus].icon"
+                :title="mapStatus[row.status as UserStatus].title"
               ></el-button>
-              <template #dropdown>
-                <el-dropdown-menu>
-                  <el-dropdown-item>
-                    <el-icon><UserFilled /></el-icon>
-                    查看用戶
-                  </el-dropdown-item>
-                  <el-dropdown-item
-                    v-if="row.status !== 'active'"
-                    class="text-success"
-                    divided
-                  >
-                    <el-icon><Select /></el-icon>
-                    啟用用戶
-                  </el-dropdown-item>
-                  <el-dropdown-item
-                    v-if="row.status !== 'suspended'"
-                    class="text-warning"
-                  >
-                    <el-icon><SemiSelect /></el-icon>
-                    封存用戶
-                  </el-dropdown-item>
-                  <el-dropdown-item
-                    v-if="row.status !== 'pending'"
-                    class="text-danger"
-                  >
-                    <el-icon><CloseBold /></el-icon>
-                    停用帳號
-                  </el-dropdown-item>
-                  <el-dropdown-item divided>
-                    <el-icon><Promotion /></el-icon>
-                    重設密碼
-                  </el-dropdown-item>
-                </el-dropdown-menu>
-              </template>
-            </el-dropdown>
-          </div>
-        </template>
-      </el-table-column>
-    </el-table>
-    <div class="flex items-center justify-center mt-4">
-      <el-pagination
-        v-model:current-page="currentPage"
-        v-model:page-size="pageSize"
-        size="default"
-        :page-sizes="[10, 20, 30, 40]"
-        layout="total, prev, pager, next, sizes"
-        :total="pageTotal"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-      />
-    </div>
+            </span>
+            <div v-else-if="column.prop === 'action'" class="column-action">
+              <el-button type="primary" size="small">編輯</el-button>
+              <el-dropdown>
+                <el-button
+                  type="default"
+                  :icon="MoreFilled"
+                  size="small"
+                ></el-button>
+                <template #dropdown>
+                  <el-dropdown-menu>
+                    <el-dropdown-item
+                      v-for="item in ShowActionMenu(row)"
+                      :key="item.title"
+                      :class="item.class"
+                      :divided="item.divided"
+                      @click="item.onClick"
+                    >
+                      <el-icon><component :is="item.icon" /></el-icon>
+                      {{ item.title }}
+                    </el-dropdown-item>
+                  </el-dropdown-menu>
+                </template>
+              </el-dropdown>
+            </div>
+          </template>
+        </el-table-column>
+      </el-table>
+    </TablePage>
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed, ref } from "vue";
+import { FAKE_DATA } from "@/mock/fake-data";
+import { useSettingStore } from "@/store/setting";
 import {
   Plus,
   Setting,
@@ -104,21 +80,28 @@ import {
   Promotion,
 } from "@element-plus/icons-vue";
 
-import { FAKE_DATA } from "@/mock/fake-data";
-import { useSettingStore } from "@/store/setting";
+// components
+import TablePage from "@/components/table/TablePage.vue";
 
 // 取得視窗高度並計算表格高度
 const settingStore = useSettingStore();
 const tableHeight = computed(() => settingStore.domHeight - 232);
 
-// 用戶資料
-const userList = FAKE_DATA.userList;
+// 表格資料 & 頁碼處理
+const allData = FAKE_DATA.userList;
+const pageTotal = computed(() => allData.length);
 const currentPage = ref(1);
 const pageSize = ref(10);
 const tableData = computed(() => {
   const start = (currentPage.value - 1) * pageSize.value;
-  return userList.slice(start, start + pageSize.value);
+  return allData.slice(start, start + pageSize.value);
 });
+
+// 切換頁碼時呼叫
+const fetchData = (page: number, size: number) => {
+  console.log("重新載入資料:", { page, size });
+  // 呼叫 API 重新載入列表...
+};
 
 // 表格欄位
 const columns = computed(() => [
@@ -180,15 +163,9 @@ const columns = computed(() => [
   },
 ]);
 
-const pageTotal = computed(() => userList.length);
-const handleSizeChange = () => {
-  currentPage.value = 1;
-};
-const handleCurrentChange = () => {};
-
 // 快速對照表
 import type { Component } from "vue";
-import type { UserStatus } from "@/types/user";
+import type { UserStatus, UserItem } from "@/types/user";
 interface StatusConfig {
   icon: Component;
   type: "success" | "warning" | "danger" | "info";
@@ -211,4 +188,53 @@ const mapStatus: Record<UserStatus, StatusConfig> = {
     title: "pending",
   },
 };
+
+const ActionMenu = (row: UserItem) => {
+  return [
+    {
+      title: "查看用戶",
+      icon: UserFilled,
+      show: true,
+      onClick: () => handleViewUser(row),
+    },
+    {
+      title: "啟用用戶",
+      icon: Select,
+      show: row.status !== "active",
+      class: "text-success",
+      onClick: () => handleActiveUser(row),
+    },
+    {
+      title: "封存用戶",
+      icon: SemiSelect,
+      show: row.status !== "suspended",
+      class: "text-warning",
+      onClick: () => handleSuspendedUser(row),
+    },
+    {
+      title: "停用帳號",
+      icon: CloseBold,
+      show: row.status !== "pending",
+      class: "text-danger",
+      onClick: () => handlePendingUser(row),
+    },
+    {
+      title: "重設密碼",
+      icon: Promotion,
+      show: true,
+      divided: true,
+      onClick: () => handleResetPassword(row),
+    },
+  ];
+};
+
+const ShowActionMenu = (row: UserItem) => {
+  return ActionMenu(row).filter((item) => item.show);
+};
+
+const handleViewUser = (row: UserItem) => {};
+const handleActiveUser = (row: UserItem) => {};
+const handleSuspendedUser = (row: UserItem) => {};
+const handlePendingUser = (row: UserItem) => {};
+const handleResetPassword = (row: UserItem) => {};
 </script>

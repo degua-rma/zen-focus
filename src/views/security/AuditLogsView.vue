@@ -3,81 +3,46 @@
     <div class="inner-title">
       <h3>審計日誌</h3>
     </div>
-    <!-- <p>
-      查詢系統內「誰在什麼時間，對什麼資料做了什麼變更」。 <br />
-      操作行為分類標籤（Create / Update / Delete / Export）。<br />
-      點擊展開可看到 JSON Diff 對比（例如：將角色從 Viewer 改為 Admin
-      的欄位差異）。
-    </p> -->
-    <el-table :data="tableData" border :height="tableHeight">
-      <el-table-column
-        v-for="column in columns"
-        :key="column.prop || column.type"
-        :type="column.type"
-        :index="column.index"
-        :prop="column.prop"
-        :label="column.label"
-        :width="column.width"
-        :align="column.align"
-        :fixed="column.fixed"
-      >
-        <template #default="{ row }">
-          <div v-if="column.prop === 'operator'">
-            <h6 class="flex items-center">
-              <el-avatar
-                v-if="row.operator.avatar"
-                :size="16"
-                :src="row.operator.avatar"
-                class="mr-2"
-              />
-              <span>{{ row.operator?.name ?? "" }}</span>
-            </h6>
-            <p>{{ row.operator?.email ?? "" }}</p>
-          </div>
-          <div v-else-if="column.prop === 'category'">
-            <el-tag
-              :type="mapCategory[row.category as ActionCategory].type"
-              class="font-bold"
-            >
-              {{ mapCategory[row.category as ActionCategory]?.title ?? "" }}
-            </el-tag>
-          </div>
-          <div v-else-if="column.prop === 'status'">
-            <el-tag
-              :type="mapStatus[row.status as StatusType].type"
-              class="font-bold"
-            >
-              {{ mapStatus[row.status as StatusType]?.title ?? "" }}
-            </el-tag>
-          </div>
-          <div v-else-if="column.prop === 'level'">
-            <el-tag
-              :type="mapLevel[row.level as LogLevel].type"
-              class="font-bold"
-            >
-              {{ mapLevel[row.level as LogLevel]?.title ?? "" }}
-            </el-tag>
-          </div>
-          <div v-else-if="column.prop === 'payload'">
-            <el-button size="small" @click="handleOpenViewLog(row)"
-              >查看詳情</el-button
-            >
-          </div>
-        </template>
-      </el-table-column>
-    </el-table>
-    <div class="flex items-center justify-center mt-4">
-      <el-pagination
-        v-model:current-page="currentPage"
-        v-model:page-size="pageSize"
-        size="default"
-        :page-sizes="[10, 20, 30, 40]"
-        layout="total, prev, pager, next, sizes"
-        :total="pageTotal"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-      />
-    </div>
+    <TablePage
+      v-model:current-page="currentPage"
+      :total="pageTotal"
+      @page-change="fetchData"
+    >
+      <el-table :data="tableData" border :height="tableHeight">
+        <el-table-column
+          v-for="column in columns"
+          :key="column.prop || column.type"
+          :type="column.type"
+          :index="column.index"
+          :prop="column.prop"
+          :label="column.label"
+          :width="column.width"
+          :align="column.align"
+          :fixed="column.fixed"
+        >
+          <template #default="{ row }">
+            <div v-if="column.prop === 'operator'">
+              <UserCell :user="row.operator" />
+            </div>
+            <div v-else-if="column.prop === 'category'">
+              <MapTag :map="mapCategory" :value="row.category" />
+            </div>
+            <div v-else-if="column.prop === 'status'">
+              <MapTag :map="mapStatus" :value="row.status" />
+            </div>
+            <div v-else-if="column.prop === 'level'">
+              <MapTag :map="mapLevel" :value="row.level" />
+            </div>
+            <div v-else-if="column.prop === 'payload'">
+              <el-button size="small" @click="handleOpenViewLog(row)">
+                查看詳情
+              </el-button>
+            </div>
+          </template>
+        </el-table-column>
+      </el-table>
+    </TablePage>
+
     <el-drawer v-model="openViewDrawer" direction="rtl" size="50%">
       <template #header>
         <h3>{{ currentLog?.id ?? "" }} 異動詳情</h3>
@@ -137,31 +102,30 @@ import { useSettingStore } from "@/store/setting";
 import { copyToClipboard } from "@/utils/clipboard";
 import { CopyDocument } from "@element-plus/icons-vue";
 
-// 開啟查看視窗
-import type { AuditLogItem } from "@/types/auditLog";
-
-const openViewDrawer = ref(false);
-const currentLog = ref<AuditLogItem | null>(null);
-const handleOpenViewLog = (row: AuditLogItem) => {
-  openViewDrawer.value = true;
-  currentLog.value = row;
-};
-
-const formattedJson = (obj: Record<string, any>) => {
-  return JSON.stringify(obj, null, 2);
-};
+// components
+import MapTag from "@/components/table/MapTag.vue";
+import UserCell from "@/components/table/UserCell.vue";
+import TablePage from "@/components/table/TablePage.vue";
 
 // 取得視窗高度並計算表格高度
 const settingStore = useSettingStore();
 const tableHeight = computed(() => settingStore.domHeight - 232);
 
-const mockAuditLogs = FAKE_DATA.mockAuditLogs;
+// 表格資料 & 頁碼處理
+const allData = FAKE_DATA.mockAuditLogs;
+const pageTotal = computed(() => allData.length);
 const currentPage = ref(1);
 const pageSize = ref(10);
 const tableData = computed(() => {
   const start = (currentPage.value - 1) * pageSize.value;
-  return mockAuditLogs.slice(start, start + pageSize.value);
+  return allData.slice(start, start + pageSize.value);
 });
+
+// 切換頁碼時呼叫
+const fetchData = (page: number, size: number) => {
+  console.log("重新載入資料:", { page, size });
+  // 呼叫 API 重新載入列表...
+};
 
 const columns = computed(() => [
   {
@@ -237,42 +201,6 @@ const columns = computed(() => [
   },
 ]);
 
-const getValue = (key: keyof AuditLogItem) => {
-  return currentLog.value?.[key] ?? "";
-};
-const descriptionColumns = computed(
-  () =>
-    [
-      {
-        prop: "timestamp",
-        label: "操作時間",
-      },
-      {
-        prop: "ipAddress",
-        label: "IP 位址",
-      },
-      {
-        prop: "location",
-        label: "來源地區",
-      },
-      {
-        prop: "action",
-        label: "操作行為",
-      },
-      {
-        prop: "description",
-        label: "詳細說明",
-      },
-    ] as const,
-);
-
-// 頁碼處理
-const pageTotal = computed(() => mockAuditLogs.length);
-const handleSizeChange = () => {
-  currentPage.value = 1;
-};
-const handleCurrentChange = () => {};
-
 // 對照表
 import type { ActionCategory, StatusType, LogLevel } from "@/types/auditLog";
 interface StatusConfig {
@@ -280,47 +208,49 @@ interface StatusConfig {
   type: string;
 }
 const mapCategory: Record<ActionCategory, StatusConfig> = {
-  USER_MGMT: {
-    title: "用戶管理",
-    type: "default",
-  },
-  ROLE_PERM: {
-    title: "權限與角色",
-    type: "primary",
-  },
-  API_KEY: {
-    title: "API 金鑰",
-    type: "warning",
-  },
-  SYSTEM: {
-    title: "系統安全",
-    type: "danger",
-  },
+  USER_MGMT: { title: "用戶管理", type: "default" },
+  ROLE_PERM: { title: "權限與角色", type: "primary" },
+  API_KEY: { title: "API 金鑰", type: "warning" },
+  SYSTEM: { title: "系統安全", type: "danger" },
 };
 
 const mapStatus: Record<StatusType, StatusConfig> = {
-  success: {
-    title: "成功",
-    type: "success",
-  },
-  failure: {
-    title: "失敗",
-    type: "danger",
-  },
+  success: { title: "成功", type: "success" },
+  failure: { title: "失敗", type: "danger" },
 };
 
 const mapLevel: Record<LogLevel, StatusConfig> = {
-  info: {
-    title: "一般",
-    type: "default",
-  },
-  warning: {
-    title: "警告",
-    type: "warning",
-  },
-  error: {
-    title: "嚴重",
-    type: "danger",
-  },
+  info: { title: "一般", type: "default" },
+  warning: { title: "警告", type: "warning" },
+  error: { title: "嚴重", type: "danger" },
 };
+
+// 開啟查看視窗
+import type { AuditLogItem } from "@/types/auditLog";
+
+const openViewDrawer = ref(false);
+const currentLog = ref<AuditLogItem | null>(null);
+const handleOpenViewLog = (row: AuditLogItem) => {
+  openViewDrawer.value = true;
+  currentLog.value = row;
+};
+
+const formattedJson = (obj: Record<string, any>) => {
+  return JSON.stringify(obj, null, 2);
+};
+
+const getValue = (key: keyof AuditLogItem) => {
+  return currentLog.value?.[key] ?? "";
+};
+
+const descriptionColumns = computed(
+  () =>
+    [
+      { prop: "timestamp", label: "操作時間" },
+      { prop: "ipAddress", label: "IP 位址" },
+      { prop: "location", label: "來源地區" },
+      { prop: "action", label: "操作行為" },
+      { prop: "description", label: "詳細說明" },
+    ] as const,
+);
 </script>

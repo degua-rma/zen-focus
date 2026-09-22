@@ -9,6 +9,8 @@ import * as userList from "./users";
 import * as roleList from "./role";
 import * as permissionList from "./permission";
 import * as mockAuditLogs from "./auditLog";
+import * as mockAccessLogs from "./accessLogs";
+import * as mockApiLogs from "./apiLogs";
 
 export const FAKE_DATA = {
   ...auth,
@@ -19,4 +21,6 @@ export const FAKE_DATA = {
   ...roleList,
   ...permissionList,
   ...mockAuditLogs,
+  ...mockAccessLogs,
+  ...mockApiLogs,
 };

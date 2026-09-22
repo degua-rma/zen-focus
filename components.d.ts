@@ -41,7 +41,10 @@ declare module 'vue' {
     ElTag: typeof import('element-plus/es')['ElTag']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
     IconGoogle: typeof import('./src/components/icons/IconGoogle.vue')['default']
+    MapTag: typeof import('./src/components/table/MapTag.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    TablePage: typeof import('./src/components/table/TablePage.vue')['default']
+    UserCell: typeof import('./src/components/table/UserCell.vue')['default']
   }
 }
