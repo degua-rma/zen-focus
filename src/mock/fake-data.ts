@@ -11,6 +11,8 @@ import * as permissionList from "./permission";
 import * as mockAuditLogs from "./auditLog";
 import * as mockAccessLogs from "./accessLogs";
 import * as mockApiLogs from "./apiLogs";
+import * as mockUserSessions from "./userSessions";
+import * as mockApiKeys from "./apiKeys";
 
 export const FAKE_DATA = {
   ...auth,
@@ -23,4 +25,6 @@ export const FAKE_DATA = {
   ...mockAuditLogs,
   ...mockAccessLogs,
   ...mockApiLogs,
+  ...mockUserSessions,
+  ...mockApiKeys,
 };

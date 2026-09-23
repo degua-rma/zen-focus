@@ -53,16 +53,7 @@
             <template #label>
               <div class="cell-item">操作人員</div>
             </template>
-            <h6 class="flex items-center">
-              <el-avatar
-                v-if="currentLog?.operator.avatar"
-                :size="16"
-                :src="currentLog?.operator.avatar"
-                class="mr-2"
-              />
-              <span>{{ currentLog?.operator?.name ?? "" }}</span>
-            </h6>
-            <p>{{ currentLog?.operator?.email ?? "" }}</p>
+            <UserCell :user="currentLog?.operator" />
           </el-descriptions-item>
           <el-descriptions-item
             v-for="item in descriptionColumns"
