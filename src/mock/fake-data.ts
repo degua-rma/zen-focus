@@ -13,6 +13,8 @@ import * as mockAccessLogs from "./accessLogs";
 import * as mockApiLogs from "./apiLogs";
 import * as mockUserSessions from "./userSessions";
 import * as mockApiKeys from "./apiKeys";
+import * as mockOrgTree from "./organization";
+import * as mockOrgUsers from "./orgUsers";
 
 export const FAKE_DATA = {
   ...auth,
@@ -27,4 +29,6 @@ export const FAKE_DATA = {
   ...mockApiLogs,
   ...mockUserSessions,
   ...mockApiKeys,
+  ...mockOrgTree,
+  ...mockOrgUsers,
 };

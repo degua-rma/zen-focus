@@ -6,3 +6,11 @@ export interface RoleItem {
   createdAt: string;
   isSystem: boolean; // 用於區分系統預設與未來新增的自訂角色
 }
+
+export type SystemRole =
+  | "Admin"
+  | "Developer"
+  | "Auditor"
+  | "Viewer"
+  | "Finance Ops"
+  | string;

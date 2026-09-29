@@ -3,8 +3,10 @@
     <div class="inner-title">
       <h3>用戶管理</h3>
       <div class="flex items-center ml-auto">
+        <el-button type="info" :icon="Download">匯出報表</el-button>
         <el-button type="success" :icon="Plus">新增用戶</el-button>
-        <el-button type="primary" :icon="Setting">快速管理</el-button>
+        <el-button type="warning" :icon="SemiSelect">批次封存</el-button>
+        <el-button type="danger" :icon="CloseBold">批次停用</el-button>
       </div>
     </div>
     <TablePage
@@ -26,37 +28,10 @@
         >
           <template #default="{ row }">
             <span v-if="column.prop === 'status'">
-              <el-button
-                circle
-                size="small"
-                :type="mapStatus[row.status as UserStatus].type"
-                :icon="mapStatus[row.status as UserStatus].icon"
-                :title="mapStatus[row.status as UserStatus].title"
-              ></el-button>
+              <UserStatus :status="row.status" />
             </span>
-            <div v-else-if="column.prop === 'action'" class="column-action">
-              <el-button type="primary" size="small">編輯</el-button>
-              <el-dropdown>
-                <el-button
-                  type="default"
-                  :icon="MoreFilled"
-                  size="small"
-                ></el-button>
-                <template #dropdown>
-                  <el-dropdown-menu>
-                    <el-dropdown-item
-                      v-for="item in ShowActionMenu(row)"
-                      :key="item.title"
-                      :class="item.class"
-                      :divided="item.divided"
-                      @click="item.onClick"
-                    >
-                      <el-icon><component :is="item.icon" /></el-icon>
-                      {{ item.title }}
-                    </el-dropdown-item>
-                  </el-dropdown-menu>
-                </template>
-              </el-dropdown>
+            <div v-else-if="column.prop === 'action'">
+              <UserAction :row="row" />
             </div>
           </template>
         </el-table-column>
@@ -69,19 +44,12 @@
 import { computed, ref } from "vue";
 import { FAKE_DATA } from "@/mock/fake-data";
 import { useSettingStore } from "@/store/setting";
-import {
-  Plus,
-  Setting,
-  Select,
-  SemiSelect,
-  CloseBold,
-  MoreFilled,
-  UserFilled,
-  Promotion,
-} from "@element-plus/icons-vue";
+import { Download, Plus, SemiSelect, CloseBold } from "@element-plus/icons-vue";
 
 // components
 import TablePage from "@/components/table/TablePage.vue";
+import UserStatus from "@/components/table/UserStatus.vue";
+import UserAction from "@/components/table/UserAction.vue";
 
 // 取得視窗高度並計算表格高度
 const settingStore = useSettingStore();
@@ -162,79 +130,4 @@ const columns = computed(() => [
     fixed: "right",
   },
 ]);
-
-// 快速對照表
-import type { Component } from "vue";
-import type { UserStatus, UserItem } from "@/types/user";
-interface StatusConfig {
-  icon: Component;
-  type: "success" | "warning" | "danger" | "info";
-  title: string;
-}
-const mapStatus: Record<UserStatus, StatusConfig> = {
-  active: {
-    icon: Select,
-    type: "success",
-    title: "active",
-  },
-  suspended: {
-    icon: SemiSelect,
-    type: "warning",
-    title: "suspended",
-  },
-  pending: {
-    icon: CloseBold,
-    type: "danger",
-    title: "pending",
-  },
-};
-
-const ActionMenu = (row: UserItem) => {
-  return [
-    {
-      title: "查看用戶",
-      icon: UserFilled,
-      show: true,
-      onClick: () => handleViewUser(row),
-    },
-    {
-      title: "啟用用戶",
-      icon: Select,
-      show: row.status !== "active",
-      class: "text-success",
-      onClick: () => handleActiveUser(row),
-    },
-    {
-      title: "封存用戶",
-      icon: SemiSelect,
-      show: row.status !== "suspended",
-      class: "text-warning",
-      onClick: () => handleSuspendedUser(row),
-    },
-    {
-      title: "停用帳號",
-      icon: CloseBold,
-      show: row.status !== "pending",
-      class: "text-danger",
-      onClick: () => handlePendingUser(row),
-    },
-    {
-      title: "重設密碼",
-      icon: Promotion,
-      show: true,
-      divided: true,
-      onClick: () => handleResetPassword(row),
-    },
-  ];
-};
-
-const ShowActionMenu = (row: UserItem) => {
-  return ActionMenu(row).filter((item) => item.show);
-};
-
-const handleViewUser = (row: UserItem) => {};
-const handleActiveUser = (row: UserItem) => {};
-const handleSuspendedUser = (row: UserItem) => {};
-const handlePendingUser = (row: UserItem) => {};
-const handleResetPassword = (row: UserItem) => {};
 </script>
