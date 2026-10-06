@@ -1,5 +1,4 @@
-<script setup lang="ts" generic="T extends string | number | symbol">
-// 使用 Generic (泛型) 讓傳入的 value 型別保持彈性 (ActionCategory 或任何類型)
+<script setup lang="ts">
 import type { TagProps } from "element-plus";
 import type { Component } from "vue";
 
@@ -9,17 +8,26 @@ interface TagConfig {
   icon?: Component;
 }
 
-const props = defineProps<{
-  map: Record<T, TagConfig>; // 映射表 (例如 mapCategory)
-  value: T; // 當前的 Key (例如 row.category)
+defineProps<{
+  map: Record<string | number | symbol, TagConfig>;
+  value?: string | number | symbol | null;
 }>();
+
+const getTagType = (type?: string): TagProps["type"] => {
+  const validTypes = ["primary", "success", "info", "warning", "danger"];
+  return validTypes.includes(type ?? "") ? (type as TagProps["type"]) : "info";
+};
 </script>
 
 <template>
-  <el-tag :type="map[props.value]?.type ?? 'info'" class="font-bold">
-    <el-icon v-if="map[props.value]?.icon" class="mr-1">
-      <component :is="map[props.value].icon" />
+  <el-tag
+    v-if="value != null && map[value]"
+    :type="getTagType(map[value].type)"
+    class="font-bold"
+  >
+    <el-icon v-if="map[value].icon" class="mr-1">
+      <component :is="map[value].icon" />
     </el-icon>
-    <span>{{ map[props.value]?.title ?? "" }}</span>
+    <span>{{ map[value].title ?? "" }}</span>
   </el-tag>
 </template>

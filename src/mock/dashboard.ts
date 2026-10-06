@@ -47,7 +47,7 @@ export const mockProjectProgress: ProjectProgressItem[] = [
   {
     id: "stage-2",
     stage: "第二階段：儀表板數據卡片、圖表與統計資訊",
-    status: "in_progress",
+    status: "completed",
   },
   {
     id: "stage-3",

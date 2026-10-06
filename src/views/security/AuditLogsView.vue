@@ -25,13 +25,13 @@
               <UserCell :user="row.operator" />
             </div>
             <div v-else-if="column.prop === 'category'">
-              <MapTag :map="mapCategory" :value="row.category" />
+              <MapTag :map="MAP_CATEGORY" :value="row.category" />
             </div>
             <div v-else-if="column.prop === 'status'">
-              <MapTag :map="mapStatus" :value="row.status" />
+              <MapTag :map="MAP_STATUS" :value="row.status" />
             </div>
             <div v-else-if="column.prop === 'level'">
-              <MapTag :map="mapLevel" :value="row.level" />
+              <MapTag :map="MAP_LEVEL" :value="row.level" />
             </div>
             <div v-else-if="column.prop === 'payload'">
               <el-button size="small" @click="handleOpenViewLog(row)">
@@ -42,47 +42,7 @@
         </el-table-column>
       </el-table>
     </TablePage>
-
-    <el-drawer v-model="openViewDrawer" direction="rtl" size="50%">
-      <template #header>
-        <h3>{{ currentLog?.id ?? "" }} 異動詳情</h3>
-      </template>
-      <template #default>
-        <el-descriptions class="mb-4" :column="1" size="small" border>
-          <el-descriptions-item>
-            <template #label>
-              <div class="cell-item">操作人員</div>
-            </template>
-            <UserCell :user="currentLog?.operator" />
-          </el-descriptions-item>
-          <el-descriptions-item
-            v-for="item in descriptionColumns"
-            :key="item.prop"
-          >
-            <template #label>
-              <div class="cell-item">{{ item.label }}</div>
-            </template>
-            {{ getValue(item.prop) }}
-          </el-descriptions-item>
-        </el-descriptions>
-        <div class="relative">
-          <el-button
-            type="default"
-            size="small"
-            :icon="CopyDocument"
-            class="copy-btn"
-            style="position: absolute; right: 12px; top: 12px"
-            @click="copyToClipboard(currentLog?.payload ?? {})"
-          >
-            複製 JSON
-          </el-button>
-          <pre
-            class="json-code"
-          ><code>{{ formattedJson(currentLog?.payload ?? {}) }}</code>
-        </pre>
-        </div>
-      </template>
-    </el-drawer>
+    <AuditLogDetailDrawer v-model="openViewDrawer" :log-data="currentLog" />
   </div>
 </template>
 
@@ -90,13 +50,15 @@
 import { computed, ref } from "vue";
 import { FAKE_DATA } from "@/mock/fake-data";
 import { useSettingStore } from "@/store/setting";
-import { copyToClipboard } from "@/utils/clipboard";
-import { CopyDocument } from "@element-plus/icons-vue";
+
+// 對照表
+import { MAP_CATEGORY, MAP_STATUS, MAP_LEVEL } from "@/constants/AuditLogsMap";
 
 // components
 import MapTag from "@/components/table/MapTag.vue";
 import UserCell from "@/components/table/UserCell.vue";
 import TablePage from "@/components/table/TablePage.vue";
+import AuditLogDetailDrawer from "@/components/overlays/AuditLogDetailDrawer.vue";
 
 // 取得視窗高度並計算表格高度
 const settingStore = useSettingStore();
@@ -192,30 +154,6 @@ const columns = computed(() => [
   },
 ]);
 
-// 對照表
-import type { ActionCategory, StatusType, LogLevel } from "@/types/auditLog";
-interface StatusConfig {
-  title: string;
-  type: string;
-}
-const mapCategory: Record<ActionCategory, StatusConfig> = {
-  USER_MGMT: { title: "用戶管理", type: "default" },
-  ROLE_PERM: { title: "權限與角色", type: "primary" },
-  API_KEY: { title: "API 金鑰", type: "warning" },
-  SYSTEM: { title: "系統安全", type: "danger" },
-};
-
-const mapStatus: Record<StatusType, StatusConfig> = {
-  success: { title: "成功", type: "success" },
-  failure: { title: "失敗", type: "danger" },
-};
-
-const mapLevel: Record<LogLevel, StatusConfig> = {
-  info: { title: "一般", type: "default" },
-  warning: { title: "警告", type: "warning" },
-  error: { title: "嚴重", type: "danger" },
-};
-
 // 開啟查看視窗
 import type { AuditLogItem } from "@/types/auditLog";
 
@@ -225,23 +163,4 @@ const handleOpenViewLog = (row: AuditLogItem) => {
   openViewDrawer.value = true;
   currentLog.value = row;
 };
-
-const formattedJson = (obj: Record<string, any>) => {
-  return JSON.stringify(obj, null, 2);
-};
-
-const getValue = (key: keyof AuditLogItem) => {
-  return currentLog.value?.[key] ?? "";
-};
-
-const descriptionColumns = computed(
-  () =>
-    [
-      { prop: "timestamp", label: "操作時間" },
-      { prop: "ipAddress", label: "IP 位址" },
-      { prop: "location", label: "來源地區" },
-      { prop: "action", label: "操作行為" },
-      { prop: "description", label: "詳細說明" },
-    ] as const,
-);
 </script>

@@ -90,13 +90,17 @@
                 {{ row.operator.name }}
               </div>
               <div v-else-if="column.prop === 'view'">
-                <el-button size="small">詳情</el-button>
+                <el-button size="small" @click="handleOpenViewLog(row)">
+                  詳情
+                </el-button>
               </div>
             </template>
           </el-table-column>
         </el-table>
         <div class="flex justify-center mt-2">
-          <el-button type="primary" size="small">查看所有紀錄</el-button>
+          <el-button type="primary" size="small" @click="goToAuditLogs"
+            >查看所有紀錄</el-button
+          >
         </div>
       </div>
       <div class="card-space large">
@@ -119,6 +123,10 @@
           </li>
         </ul>
       </div>
+      <AuditLogDetailDrawer
+        v-model="openAuditLogDrawer"
+        :log-data="currentLog"
+      />
     </div>
   </div>
 </template>
@@ -126,6 +134,9 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import { FAKE_DATA } from "@/mock/fake-data";
+
+// components
+import AuditLogDetailDrawer from "@/components/overlays/AuditLogDetailDrawer.vue";
 
 // 圖表相關
 import { use } from "echarts/core";
@@ -182,10 +193,9 @@ const apiTrendOption = ref({
   },
   grid: {
     top: "15%",
-    left: "2%",
-    right: "2%",
-    bottom: "15%",
-    containLabel: true,
+    left: "8%",
+    right: "12%",
+    bottom: "25%",
   },
   xAxis: {
     type: "category",
@@ -322,6 +332,24 @@ const auditLogsColumns = computed(() => [
     align: "center",
   },
 ]);
+
+// 開啟查看視窗
+import type { AuditLogItem } from "@/types/auditLog";
+
+const openAuditLogDrawer = ref(false);
+const currentLog = ref<AuditLogItem | null>(null);
+const handleOpenViewLog = (row: AuditLogItem) => {
+  openAuditLogDrawer.value = true;
+  currentLog.value = row;
+};
+
+// 頁面跳轉
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+const goToAuditLogs = () => {
+  router.push({ name: "audit-logs" });
+};
 </script>
 
 <style scoped lang="scss">
